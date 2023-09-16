@@ -3,4 +3,3 @@ kind: ConfigMap
 metadata:
   name: mariadb-configmap
 data:
-  database_url: mariadb-service

@@ -9,4 +9,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/markit-mariadb-pv-volume/
+    path: /data/markit/mariadb-pv-volume/
