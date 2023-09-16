@@ -35,6 +35,8 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: /var/lib/mysql
+        - name: mariadb-initdb
+          mountPath: /docker-entrypoint-initdb.d/
         resources:
             limits:
               cpu: 400m
@@ -46,3 +48,6 @@ spec:
       - name: datadir
         persistentVolumeClaim:
           claimName: mariadb-pv-claim
+      - name: mariadb-initdb
+        configMap:
+          name: mariadb-initdb-config
