@@ -1,0 +1,16 @@
+config = read_yaml('config.yaml')
+
+k8s_yaml(
+    helm('./deploys/api/kubernetes', name='api', values="config.yaml")
+)
+
+docker_build(
+    ref='api',
+    context=str(config['paths']['api']),
+    dockerfile='./deploys/api/docker/Dockerfile',
+    live_update=[
+        sync(str(config['paths']['api']), '/var/www/html'),
+    ]
+)
+
+k8s_resource('api', labels=['backend'], port_forwards=['8000:8000'])

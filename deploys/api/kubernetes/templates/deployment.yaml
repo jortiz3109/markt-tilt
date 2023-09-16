@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: api
+          image: api:latest
+          command: ["/usr/local/bin/entrypoint.sh"]
+          args: ["php", "artisan", "serve"]
+          workingDir: /var/www/html
+          env:
+          - name: DB_HOST
+            value: mariadb
+          - name: DB_USERNAME
+            value: markit
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: api-secrets
+                key: mariadb-markit-password
+          resources:
+            limits:
+              cpu: 800m
+              memory: 800Mi
+            requests:
+              cpu: 400m
+              memory: 400Mi
+          ports:
+            - containerPort: 8000
+      
