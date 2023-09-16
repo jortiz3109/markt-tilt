@@ -16,12 +16,20 @@ spec:
         app: api
     spec:
       restartPolicy: Always
+      initContainers:
+      - name: composer
+        image: api:latest
+        command: ['composer', 'install']
+        workingDir: /var/www/html
       containers:
         - name: api
           image: api:latest
-          command: ["/usr/local/bin/entrypoint.sh"]
-          args: ["php", "artisan", "serve"]
+          command: ["php"]
+          args: ["artisan", "octane:start"]
           workingDir: /var/www/html
+          volumeMounts:
+          - name: entrypoint
+            mountPath: /home/bin
           env:
           - name: DB_HOST
             value: mariadb
@@ -41,4 +49,9 @@ spec:
               memory: 400Mi
           ports:
             - containerPort: 8000
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: api-entrypoint-configmap
+            defaultMode: 0777
       
