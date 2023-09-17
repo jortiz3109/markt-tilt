@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mariadb
+      app: markit-mariadb
   template:
     metadata:
       labels:
-        app: mariadb
+        app: markit-mariadb
     spec:
       containers:
       - name: mariadb

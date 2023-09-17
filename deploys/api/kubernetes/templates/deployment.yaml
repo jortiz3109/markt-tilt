@@ -3,23 +3,23 @@ kind: Deployment
 metadata:
   name: api
   labels:
-    app: api
+    app: markit-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      app: markit-api
   template:
     metadata:
       labels:
-        app: api
+        app: markit-api
     spec:
       restartPolicy: Always
       containers:
         - name: api
           image: api:latest
           command: ['/opt/bin/entrypoint.sh']
-          args: ["php", "artisan", "octane:start"]
+          args: ["php", "artisan", "octane:start", "--host", "0.0.0.0"]
           workingDir: /var/www/html
           volumeMounts:
           - name: entrypoint

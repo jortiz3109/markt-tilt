@@ -4,7 +4,7 @@ metadata:
   name: mariadb
 spec:
   selector:
-    app: mariadb
+      app: markit-mariadb
   ports:
     - port: 3306
       name: mariadb-port
