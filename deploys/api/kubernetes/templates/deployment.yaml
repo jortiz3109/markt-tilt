@@ -19,8 +19,13 @@ spec:
       initContainers:
       - name: composer
         image: api:latest
-        command: ['composer', 'install']
+        command: ['/home/bin/entrypoint.sh']
         workingDir: /var/www/html
+        volumeMounts:
+          - name: composer
+            mountPath: /var/www/html/vendor
+          - name: entrypoint
+            mountPath: /home/bin
       containers:
         - name: api
           image: api:latest
@@ -28,8 +33,8 @@ spec:
           args: ["artisan", "octane:start"]
           workingDir: /var/www/html
           volumeMounts:
-          - name: entrypoint
-            mountPath: /home/bin
+          - name: composer
+            mountPath: /var/www/html/vendor
           env:
           - name: DB_HOST
             value: mariadb
@@ -50,6 +55,9 @@ spec:
           ports:
             - containerPort: 8000
       volumes:
+        - name: composer
+          emptyDir:
+            sizeLimit: 500M
         - name: entrypoint
           configMap:
             name: api-entrypoint-configmap
