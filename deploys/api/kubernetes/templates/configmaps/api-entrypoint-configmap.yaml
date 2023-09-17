@@ -6,12 +6,25 @@ data:
   entrypoint.sh: |
     #! /bin/sh
     set -e
-    composer install
+    GREEN='\033[0;32m'
+    BOLD='\033[1m'
 
-    FILE=/var/www/html/vendor/autoload.php
-    if [ ! -f "$FILE" ]; then
-        composer dump-autoload --optimize
+    VENDOR_DIR=/var/www/html/vendor
+    if [ ! -d "$VENDOR_DIR" ]; then
+      echo -e "${GREEN} Installing composer"
+      composer install
     fi
 
+    AUTOLOAD_FILE=/var/www/html/vendor/autoload.php
+    if [ ! -f "$AUTOLOAD_FILE" ]; then
+      echo -e "${GREEN} Autoloading classes"
+      composer dump-autoload --optimize
+    fi
+
+    echo -e "${GREEN} Setting permissions"
     find storage -type d -print0 | xargs -0 chmod 775
     find storage -type f -print0 | xargs -0 chmod 664
+
+    echo -e "${GREEN} Starting app with ${BOLD}$@"
+
+    "$@"

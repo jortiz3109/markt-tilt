@@ -8,9 +8,11 @@ docker_build(
     ref='api',
     context=str(config['paths']['api']),
     dockerfile='./deploys/api/docker/Dockerfile',
+    ignore=[str(config['paths']['api'] + '/.idea')],
     live_update=[
         sync(str(config['paths']['api']), '/var/www/html'),
-    ]
+        run('composer install', trigger=[str(config['paths']['api'] + 'composer.json'), str(config['paths']['api'] + 'composer.lock')])
+    ],
 )
 
 k8s_resource('api', labels=['backend'], port_forwards=['8081:8000'])

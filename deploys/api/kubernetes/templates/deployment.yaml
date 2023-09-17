@@ -9,32 +9,21 @@ spec:
   selector:
     matchLabels:
       app: api
-  strategy: {}
   template:
     metadata:
       labels:
         app: api
     spec:
       restartPolicy: Always
-      initContainers:
-      - name: composer
-        image: api:latest
-        command: ['/home/bin/entrypoint.sh']
-        workingDir: /var/www/html
-        volumeMounts:
-          - name: composer
-            mountPath: /var/www/html/vendor
-          - name: entrypoint
-            mountPath: /home/bin
       containers:
         - name: api
           image: api:latest
-          command: ["php"]
-          args: ["artisan", "octane:start"]
+          command: ['/opt/bin/entrypoint.sh']
+          args: ["php", "artisan", "octane:start"]
           workingDir: /var/www/html
           volumeMounts:
-          - name: composer
-            mountPath: /var/www/html/vendor
+          - name: entrypoint
+            mountPath: /opt/bin
           env:
           - name: DB_HOST
             value: mariadb
@@ -48,16 +37,13 @@ spec:
           resources:
             limits:
               cpu: 800m
-              memory: 800Mi
+              memory: 400Mi
             requests:
               cpu: 400m
-              memory: 400Mi
+              memory: 200Mi
           ports:
             - containerPort: 8000
       volumes:
-        - name: composer
-          emptyDir:
-            sizeLimit: 500M
         - name: entrypoint
           configMap:
             name: api-entrypoint-configmap
