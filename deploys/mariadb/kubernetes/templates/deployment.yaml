@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: markit-mariadb
+      app: markt-mariadb
   template:
     metadata:
       labels:
-        app: markit-mariadb
+        app: markt-mariadb
     spec:
       containers:
       - name: mariadb
@@ -27,11 +27,11 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mariadb-secrets
-              key: markit-password
+              key: markt-password
         - name: MYSQL_USER
-          value: markit
+          value: markt
         - name: MYSQL_DATABASE
-          value: markit
+          value: markt
         volumeMounts:
         - name: datadir
           mountPath: /var/lib/mysql

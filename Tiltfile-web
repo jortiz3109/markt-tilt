@@ -1,0 +1,22 @@
+config = read_yaml('config.yaml')
+
+k8s_yaml(
+    helm('./deploys/web/kubernetes', name='web', values="config.yaml")
+)
+
+docker_build(
+    ref='web',
+    context=str(config['paths']['web']),
+    dockerfile='./deploys/web/docker/Dockerfile',
+    ignore=[
+        str(config['paths']['web'] + '/.idea')
+    ],
+    live_update=[
+        sync(str(config['paths']['web']), '/var/www/html'),
+        run('composer install', trigger=[
+            str(config['paths']['web'] + '/package.json')
+        ])
+    ],
+)
+
+k8s_resource('web', labels=['services'], port_forwards=['8080:8000'])

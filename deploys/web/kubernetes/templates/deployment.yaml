@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: markt-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: markt-web
+  template:
+    metadata:
+      labels:
+        app: markt-web
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: web
+          image: web:latest
+          command: ['/opt/bin/entrypoint.sh']
+          args: ["bun", "run", "dev", "--host", "0.0.0.0", "--port", "8000"]
+          workingDir: /var/www/html
+          volumeMounts:
+          - name: entrypoint
+            mountPath: /opt/bin
+          env:
+          - name: API_URL
+            value: mariadb
+          resources:
+            limits:
+            cpu: 800m
+            memory: 400Mi
+            requests:
+            cpu: 400m
+            memory: 200Mi
+          ports:
+            - containerPort: 8000
+      volumes:
+        - name: entrypoint
+          configMap:
+              name: web-entrypoint-configmap
+              defaultMode: 0777

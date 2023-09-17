@@ -4,5 +4,5 @@ metadata:
   name: mariadb-initdb-config
 data:
   initdb.sql: |
-    CREATE DATABASE IF NOT EXISTS markit_test COLLATE 'utf8_general_ci';
-    GRANT ALL PRIVILEGES ON markit_test.* TO 'markit'@'%';
+    CREATE DATABASE IF NOT EXISTS markt_test COLLATE 'utf8_general_ci';
+    GRANT ALL PRIVILEGES ON markt_test.* TO 'markt'@'%';

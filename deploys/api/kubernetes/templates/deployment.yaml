@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: api
   labels:
-    app: markit-api
+    app: markt-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: markit-api
+      app: markt-api
   template:
     metadata:
       labels:
-        app: markit-api
+        app: markt-api
     spec:
       restartPolicy: Always
       containers:
@@ -28,12 +28,12 @@ spec:
           - name: DB_HOST
             value: mariadb
           - name: DB_USERNAME
-            value: markit
+            value: markt
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: api-secrets
-                key: mariadb-markit-password
+                key: mariadb-markt-password
           resources:
             limits:
               cpu: 800m

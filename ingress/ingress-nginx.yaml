@@ -1,14 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-markit
+  name: ingress-markt
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/enable-cors: "true"
 spec:
   rules:
-  - host: markit.local
+  - host: markt.local
     http:
       paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-service
+            port:
+              number: 8080
       - path: /api
         pathType: Prefix
         backend:

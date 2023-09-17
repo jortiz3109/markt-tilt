@@ -9,11 +9,13 @@ configValues = read_yaml('config.yaml')
 
 watch_settings([
     str(configValues['paths']['api'] + '/storage'),
-    str(configValues['paths']['api'] + '/vendor')
+    str(configValues['paths']['api'] + '/vendor'),
+    str(configValues['paths']['web'] + '/node_modules')
 ])
 
 k8s_yaml('./ingress/ingress-nginx.yaml')
-k8s_resource(new_name='ingress-markit', objects=['ingress-markit'], labels=['infra'])
+k8s_resource(new_name='ingress-markt', objects=['ingress-markt'], labels=['infra'])
 
 include('./Tiltfile-api')
 include('./Tiltfile-mariadb')
+include('./Tiltfile-web')
