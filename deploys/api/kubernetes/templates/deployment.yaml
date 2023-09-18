@@ -19,12 +19,14 @@ spec:
         - name: api
           image: api:latest
           command: ['/opt/bin/entrypoint.sh']
-          args: ["php", "artisan", "octane:start", "--host", "0.0.0.0"]
+          args: ["php", "artisan", "serve", "--host", "0.0.0.0"]
           workingDir: /var/www/html
           volumeMounts:
           - name: entrypoint
             mountPath: /opt/bin
           env:
+          - name: DB_DATABASE
+            value: markt
           - name: DB_HOST
             value: mariadb
           - name: DB_USERNAME

@@ -46,8 +46,8 @@ spec:
               memory: 200Mi
       volumes:
       - name: datadir
-        persistentVolumeClaim:
-          claimName: mariadb-pv-claim
+        hostPath:
+          path: /data/markt/mariadb
       - name: mariadb-initdb
         configMap:
           name: mariadb-initdb-config
