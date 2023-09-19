@@ -9,7 +9,8 @@ docker_build(
     context=str(config['paths']['web']),
     dockerfile='./deploys/web/docker/Dockerfile',
     ignore=[
-        str(config['paths']['web'] + '/.idea')
+        str(config['paths']['web'] + '/.idea'),
+        str(config['paths']['web'] + '/.gitignore')
     ],
     live_update=[
         sync(str(config['paths']['web']), '/var/www/html'),

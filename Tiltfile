@@ -8,9 +8,11 @@ update_settings(max_parallel_updates=3)
 configValues = read_yaml('config.yaml')
 
 watch_settings([
-    str(configValues['paths']['api'] + '/storage'),
-    str(configValues['paths']['api'] + '/vendor'),
-    str(configValues['paths']['web'] + '/node_modules')
+    str(configValues['paths']['api']) + '/storage',
+    str(configValues['paths']['api']) + '/vendor',
+    str(configValues['paths']['api']) + '/.gitignore',
+    str(configValues['paths']['web']) + '/node_modules',
+    str(configValues['paths']['web']) + '/.gitignore'
 ])
 
 k8s_yaml('./ingress/ingress-nginx.yaml')
