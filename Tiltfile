@@ -16,7 +16,7 @@ watch_settings([
 ])
 
 k8s_yaml('./ingress/ingress-nginx.yaml')
-k8s_resource(new_name='ingress-markt', objects=['ingress-markt'], labels=['infra'])
+k8s_resource(new_name='ingress-markt', objects=['ingress-markt'], labels=['infra'], resource_deps=['api', 'web'])
 
 include('./Tiltfile-api')
 include('./Tiltfile-mariadb')

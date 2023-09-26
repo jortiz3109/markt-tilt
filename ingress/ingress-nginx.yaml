@@ -3,7 +3,9 @@ kind: Ingress
 metadata:
   name: ingress-markt
   annotations:
-    nginx.ingress.kubernetes.io/enable-cors: "true"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-access-log: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
   - host: markt.local
@@ -16,7 +18,7 @@ spec:
             name: web-service
             port:
               number: 8080
-      - path: /api
+      - path: /(api|sanctum|auth|user)
         pathType: Prefix
         backend:
           service:

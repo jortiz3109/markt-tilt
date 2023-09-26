@@ -14,7 +14,7 @@ docker_build(
     ],
     live_update=[
         sync(str(config['paths']['web']), '/var/www/html'),
-        run('composer install', trigger=[
+        run('bun install', trigger=[
             str(config['paths']['web'] + '/package.json')
         ])
     ],
