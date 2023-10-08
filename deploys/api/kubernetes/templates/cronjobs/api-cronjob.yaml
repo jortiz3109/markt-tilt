@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: api-cronjob
+            image: api:latest
+            imagePullPolicy: IfNotPresent
+            workingDir: /var/www/html
+            command:
+            - /bin/sh
+            - -c
+            - php artisan schedule:run
+            env:
+            - name: DB_DATABASE
+              value: markt
+            - name: DB_HOST
+              value: mariadb
+            - name: DB_USERNAME
+              value: markt
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: mariadb-markt-password
+          restartPolicy: OnFailure
