@@ -10,14 +10,15 @@ docker_build(
     dockerfile='./deploys/web/docker/Dockerfile',
     ignore=[
         str(config['paths']['web'] + '/.idea'),
-        str(config['paths']['web'] + '/.gitignore')
+        str(config['paths']['web'] + '/.gitignore'),
+        str(config['paths']['web'] + '/node_modules')
     ],
     live_update=[
         sync(str(config['paths']['web']), '/var/www/html'),
-        run('bun install', trigger=[
+        run('npm install', trigger=[
             str(config['paths']['web'] + '/package.json')
         ])
     ],
 )
 
-k8s_resource('web', labels=['services'], port_forwards=['8080:8000'])
+k8s_resource('web', labels=['services'])

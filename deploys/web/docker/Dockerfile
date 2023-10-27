@@ -1,4 +1,4 @@
-FROM oven/bun:latest
+FROM node:20-alpine
 
 LABEL maintainer="John Edisson Ortiz"
 

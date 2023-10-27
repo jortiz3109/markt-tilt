@@ -19,4 +19,4 @@ docker_build(
     ],
 )
 
-k8s_resource('api', labels=['services'], port_forwards=['8081:8000'])
+k8s_resource('api', labels=['services'])
